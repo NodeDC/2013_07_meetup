@@ -117,43 +117,6 @@ WriteHello(process.argv[2]);
 
 Let's point out that console and process are node _system_ modules.  They are provided by node and are always available.  Then point out that os is also a module provided by node but not automatically loaded up through the `var os = require('os'); line
 
-## Make WriteHello its own module ##
-
-### Goal ###
-
-Get everybody used to the idea of writing their own modules, and stress that modules are one of the things that make node really work by having lots of elementary building blocks put together.
-
-### Process ###
-
-Let's move the WriteHello method to its own module.  Have everybody make a lib subdirectory (`mkdir lib`) and make a hello module with one method in it, hello:
-```
-Cocytus:nodedc_meetup jonathan$ cat lib/hello.js
-var os = require('os');
-
-module.exports = {
-  hello: function WriteHello(predicate) {
-    console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
-  }
-}
-```
-
-And now have them update their hello script to use it:
-```
-Cocytus:nodedc_meetup jonathan$ cat hello3.js
-var hello = require('./lib/hello');
-
-function WriteHello(predicate) {
-  console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
-}
-
-hello.hello(process.argv[2]);
-```
-And show the output that results:
-```
-Cocytus:nodedc_meetup jonathan$ node hello3.js World
-Hello, World from the machine Cocytus.local!
-```
-
 ## Make "Hello world" be a website ##
 
 ### Goal ###
@@ -239,4 +202,40 @@ Using form-provided data, call a webservice to get the transformed data presente
 
 Have them use node's ability to do client http requests to call the server we've built for the exercise with the user-supplied data, get the response, and send it back to the user
 
+## Make WriteHello its own module ##
+
+### Goal ###
+
+Get everybody used to the idea of writing their own modules, and stress that modules are one of the things that make node really work by having lots of elementary building blocks put together.
+
+### Process ###
+
+Let's move the WriteHello method to its own module.  Have everybody make a lib subdirectory (`mkdir lib`) and make a hello module with one method in it, hello:
+```
+Cocytus:nodedc_meetup jonathan$ cat lib/hello.js
+var os = require('os');
+
+module.exports = {
+  hello: function WriteHello(predicate) {
+    console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
+  }
+}
+```
+
+And now have them update their hello script to use it:
+```
+Cocytus:nodedc_meetup jonathan$ cat hello3.js
+var hello = require('./lib/hello');
+
+function WriteHello(predicate) {
+  console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
+}
+
+hello.hello(process.argv[2]);
+```
+And show the output that results:
+```
+Cocytus:nodedc_meetup jonathan$ node hello3.js World
+Hello, World from the machine Cocytus.local!
+```
 
