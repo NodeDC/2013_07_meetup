@@ -166,7 +166,7 @@ They should have seen "Hello World" as an H1 in the browser.  Then have them loo
 Have the user install connect and a templating engine.  I prefer ejs, but moustache (hogan?) would probably work.  I would probably try to avoid jade myself, but whatever works for the assistants is ok by me. 
 
 ```
-Cocytus:nodedc_meetup jonathan$ npm install ejs
+Cocytus:nodedc_meetup jonathan$ npm install --save ejs
 npm WARN package.json nodedc_meetup@0.0.0 No repository field.
 npm http GET https://registry.npmjs.org/ejs
 npm http 200 https://registry.npmjs.org/ejs
@@ -183,7 +183,7 @@ ejs@0.8.4 node_modules/ejs
 Cocytus:nodedc_meetup jonathan$ npm install connect
 ```
 
-The connect install is far too big to show the output.
+The connect install is far too big to show the output.  Once the install is done, have everyone review their package.json and notice that the connect and ejs (or other templating engine) packages are now in there.
 
 ## Build a form to collect input ##
 
