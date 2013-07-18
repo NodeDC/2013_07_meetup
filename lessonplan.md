@@ -249,14 +249,16 @@ Be able to accept input and do something with it
 ### Process ###
 Create a script that shows a form, takes in the POSTed input and does some transformation of the received data that then gets sent back to the user
 
-## Take collected input and get secret key ##
+## Take collected input and get a stock quote ##
 
 ### Goal ###
-Using form-provided data, call a webservice to get the transformed data presented back to the user
+Using form-provided data, call a webservice to get JSON-encoded stock quote data and present the quote back to the user
 
 ### Process ###
 
 Have them use node's ability to do client http requests to call the server we've built for the exercise with the user-supplied data, get the response, and send it back to the user
+
+Google finance will return stock quote data.  Here's a sample URL for Microsoft: http://finance.google.com/finance/info?client=ig&q=MSFT
 
 ## Make WriteHello its own module ##
 
