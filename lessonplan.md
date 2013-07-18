@@ -117,43 +117,6 @@ WriteHello(process.argv[2]);
 
 Let's point out that console and process are node _system_ modules.  They are provided by node and are always available.  Then point out that os is also a module provided by node but not automatically loaded up through the `var os = require('os'); line
 
-## Make WriteHello its own module ##
-
-### Goal ###
-
-Get everybody used to the idea of writing their own modules, and stress that modules are one of the things that make node really work by having lots of elementary building blocks put together.
-
-### Process ###
-
-Let's move the WriteHello method to its own module.  Have everybody make a lib subdirectory (`mkdir lib`) and make a hello module with one method in it, hello:
-```
-Cocytus:nodedc_meetup jonathan$ cat lib/hello.js
-var os = require('os');
-
-module.exports = {
-  hello: function WriteHello(predicate) {
-    console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
-  }
-}
-```
-
-And now have them update their hello script to use it:
-```
-Cocytus:nodedc_meetup jonathan$ cat hello3.js
-var hello = require('./lib/hello');
-
-function WriteHello(predicate) {
-  console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
-}
-
-hello.hello(process.argv[2]);
-```
-And show the output that results:
-```
-Cocytus:nodedc_meetup jonathan$ node hello3.js World
-Hello, World from the machine Cocytus.local!
-```
-
 ## Make "Hello world" be a website ##
 
 ### Goal ###
@@ -200,27 +163,83 @@ They should have seen "Hello World" as an H1 in the browser.  Then have them loo
 
 ### Process ###
 
-Have the user install connect and a templating engine.  I prefer ejs, but moustache (hogan?) would probably work.  I would probably try to avoid jade myself, but whatever works for the assistants is ok by me. 
+Have the user install express globally
 
 ```
-Cocytus:nodedc_meetup jonathan$ npm install ejs
-npm WARN package.json nodedc_meetup@0.0.0 No repository field.
+Cocytus:nodedc_meetup jonathan$ sudo npm install -g express
+Password:
+## TON OF OUTPUT DELETED
+npm WARN package.json assert-plus@0.1.2 No repository field.
+npm WARN package.json ctype@0.5.2 No repository field.
+npm WARN package.json eyes@0.1.8 No repository field.
+express@3.3.4 /usr/local/lib/node_modules/express
+├── methods@0.0.1
+├── fresh@0.1.0
+├── range-parser@0.0.4
+├── cookie-signature@1.0.1
+├── buffer-crc32@0.2.1
+├── cookie@0.1.0
+├── debug@0.7.2
+├── mkdirp@0.3.5
+├── commander@1.2.0 (keypress@0.1.0)
+├── send@0.1.3 (mime@1.2.9)
+└── connect@2.8.4 (uid2@0.0.2, pause@0.0.1, qs@0.6.5, bytes@0.2.0, formidable@1.0.14)
+Cocytus:nodedc_meetup jonathan$
+```
+Now create an application:
+````
+Cocytus:nodedc_meetup jonathan$ mkdir express_app
+Cocytus:nodedc_meetup jonathan$ cd express_app
+Cocytus:express_app jonathan$ express -e
+
+   create : .
+   create : ./package.json
+   create : ./app.js
+   create : ./public
+   create : ./public/javascripts
+   create : ./public/images
+   create : ./public/stylesheets
+   create : ./public/stylesheets/style.css
+   create : ./routes
+   create : ./routes/index.js
+   create : ./routes/user.js
+   create : ./views
+   create : ./views/index.ejs
+
+   install dependencies:
+     $ cd . && npm install
+
+   run the app:
+     $ node app
+
+Cocytus:express_app jonathan$ npm install
+npm WARN package.json application-name@0.0.1 No repository field.
+npm WARN package.json application-name@0.0.1 No readme data.
+npm http GET https://registry.npmjs.org/express/3.3.4
 npm http GET https://registry.npmjs.org/ejs
-npm http 200 https://registry.npmjs.org/ejs
-npm http GET https://registry.npmjs.org/ejs/-/ejs-0.8.4.tgz
-npm http 200 https://registry.npmjs.org/ejs/-/ejs-0.8.4.tgz
-npm WARN package.json bytes@0.2.0 No repository field.
-npm WARN package.json cookie-signature@1.0.1 No repository field.
-npm WARN package.json fresh@0.1.0 No repository field.
-npm WARN package.json methods@0.0.1 No repository field.
-npm WARN package.json pause@0.0.1 No repository field.
-npm WARN package.json uid2@0.0.2 No repository field.
-npm WARN package.json range-parser@0.0.4 No repository field.
 ejs@0.8.4 node_modules/ejs
-Cocytus:nodedc_meetup jonathan$ npm install connect
+
+express@3.3.4 node_modules/express
+├── methods@0.0.1
+├── fresh@0.1.0
+├── range-parser@0.0.4
+├── cookie-signature@1.0.1
+├── buffer-crc32@0.2.1
+├── cookie@0.1.0
+├── debug@0.7.2
+├── mkdirp@0.3.5
+├── commander@1.2.0 (keypress@0.1.0)
+├── send@0.1.3 (mime@1.2.9)
+└── connect@2.8.4 (uid2@0.0.2, pause@0.0.1, qs@0.6.5, bytes@0.2.0, formidable@1.0.14)
+Cocytus:express_app jonathan$ node app
+Express server listening on port 3000
 ```
 
-The connect install is far too big to show the output.
+and now go to http://localhost:3000/ (or whatever server port 3000) and you should see:
+
+    # Express #
+    
+    Welcome to Express
 
 ## Build a form to collect input ##
 
@@ -239,4 +258,40 @@ Using form-provided data, call a webservice to get the transformed data presente
 
 Have them use node's ability to do client http requests to call the server we've built for the exercise with the user-supplied data, get the response, and send it back to the user
 
+## Make WriteHello its own module ##
+
+### Goal ###
+
+Get everybody used to the idea of writing their own modules, and stress that modules are one of the things that make node really work by having lots of elementary building blocks put together.
+
+### Process ###
+
+Let's move the WriteHello method to its own module.  Have everybody make a lib subdirectory (`mkdir lib`) and make a hello module with one method in it, hello:
+```
+Cocytus:nodedc_meetup jonathan$ cat lib/hello.js
+var os = require('os');
+
+module.exports = {
+  hello: function WriteHello(predicate) {
+    console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
+  }
+}
+```
+
+And now have them update their hello script to use it:
+```
+Cocytus:nodedc_meetup jonathan$ cat hello3.js
+var hello = require('./lib/hello');
+
+function WriteHello(predicate) {
+  console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
+}
+
+hello.hello(process.argv[2]);
+```
+And show the output that results:
+```
+Cocytus:nodedc_meetup jonathan$ node hello3.js World
+Hello, World from the machine Cocytus.local!
+```
 
