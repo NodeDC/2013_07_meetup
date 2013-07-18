@@ -285,10 +285,6 @@ And now have them update their hello script to use it:
 Cocytus:nodedc_meetup jonathan$ cat hello3.js
 var hello = require('./lib/hello');
 
-function WriteHello(predicate) {
-  console.log('Hello, ' + predicate + ' from the machine ' + os.hostname() + '!');
-}
-
 hello.hello(process.argv[2]);
 ```
 And show the output that results:
